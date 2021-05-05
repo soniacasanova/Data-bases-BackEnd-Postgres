@@ -24,6 +24,12 @@ app.post("/forums", async (req, res) => {
       .status(400)
       .json({ status: "ERROR", details: "Missing 'name' field" });
   }
+  try {
+    const newForum = await db.newForum(name);
+    res.json({ status: "OK", results: newForum });
+  } catch (e) {
+    res.status(500).json({ status: "ERROR", details: e.toString() });
+  }
 });
 
 app.listen(8080, () => {
